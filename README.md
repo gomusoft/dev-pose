@@ -1,124 +1,147 @@
 # DevPose
 
-DevPose is your all-in-one repository for empowering developers with essential tools, best practices, and helpful guidelines. Inspired by the legendary **Log Pose** from *One Piece*, DevPose serves as your guide on the journey to your development goals, just like the Log Pose leads you toward the Grand Line. It’s a tool for standing tall, solving challenges creatively, and innovating with confidence. Whether you're working internally or contributing from the community, DevPose will help you navigate your path to success, providing the tools and guidance you need to reach your ultimate destination.
+DevPose is your all-in-one repository for empowering developers with essential tools, best practices, and helpful guidelines. Inspired by the **Log Pose** from *One Piece*, DevPose serves as your guide on the journey to your development goals — navigating you toward the Grand Line of consistent, high-quality software.
 
 ---
 
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Structure Guide](#structure-guide)
-3. [Target Audience](#target-audience)
-4. [How to Get Started](#how-to-get-started)
-5. [Contributing](#contributing)
-6. [License](#license)
+
+1. [What's in Here](#whats-in-here)
+2. [Quick Start](#quick-start)
+3. [Tools](#tools)
+4. [Guidelines](#guidelines)
+5. [Documentation](#documentation)
+6. [AI Workflow](#ai-workflow)
+7. [Contributing](#contributing)
+8. [License](#license)
 
 ---
 
-## Introduction
+## What's in Here
 
-DevPose is built to serve developers of all levels by providing:
-- **Command-line tools**: Simplify tasks like SSL setup, directory structuring, and more.
-- **Developer guidelines**: Coding standards, best practices, and a code of conduct.
-- **Documentation and references**: For streamlined development and onboarding processes.
-
-Whether you're a junior developer exploring tools or a seasoned engineer looking for standardized practices, DevPose is your **launchpad for success**.
-
----
-
-## Structure Guide
-
-Here’s the structure of this repository:
-
-```plaintext
+```
 DevPose/
-├── tools/          # Collection of CLI and automation tools
-├── guidelines/     # Coding standards, best practices, and conduct
-├── docs/           # Additional documentation and references
-├── LICENSE         # License for this repository
-└── README.md       # This README file
+├── tools/               # Scripts to speed up common dev tasks
+│   ├── setup.sh         # One-time local environment setup
+│   ├── ai-commit.sh     # AI-generated conventional commit messages
+│   ├── ai-review.sh     # AI code review before pushing
+│   └── ai-pr-description.sh  # AI-generated PR descriptions
+│
+├── guidelines/          # Team standards and practices
+│   ├── code-of-conduct.md
+│   ├── coding-standards.md
+│   └── git-workflow.md
+│
+├── docs/                # Reference documentation
+│   ├── onboarding.md    # Start here if you're new
+│   └── ai-workflow.md   # How we use AI day-to-day
+│
+├── .github/
+│   ├── workflows/ci.yml          # CI: shell lint, markdown lint, link check
+│   ├── PULL_REQUEST_TEMPLATE.md  # Auto-filled PR template
+│   └── ISSUE_TEMPLATE/           # Bug, feature, and question templates
+│
+├── CONTRIBUTING.md
+└── LICENSE
 ```
 
-- tools/: Contains scripts and utilities to make development tasks faster and easier.
-- guidelines/: Provides detailed instructions on coding standards, workflows, and community rules.
-- docs/: Includes FAQs, onboarding documents, and other supporting references.
-
 ---
 
-## Target Audience
-
-DevPose is designed for:
-
-- Internal Developers: Access tools and guidelines to boost productivity and maintain consistency.
-- External Contributors: Developers who want to contribute, adopt best practices, or explore new tools.
-- Curious Learners: Anyone drawn by the creative solutions and helpful documentation.
-
----
-
-## How to Get Started
-
-Getting started with **DevPose** is simple! Follow the steps below to begin using the tools, exploring the guidelines, and contributing to the project.
-
-### 1. Clone the Repository
-
-First, clone the repository to your local machine:
+## Quick Start
 
 ```bash
+# 1. Clone
 git clone https://github.com/gomusoft/dev-pose.git
 cd dev-pose
+
+# 2. Set up your environment
+./tools/setup.sh
+
+# 3. Read the essentials
+# - guidelines/git-workflow.md
+# - guidelines/coding-standards.md
+# - docs/ai-workflow.md
 ```
 
-### 2. Explore the Tools
+---
 
-Once you have the repository cloned, you can start exploring the available tools:
+## Tools
 
-- Go to the [tools/](tools) directory to see a collection of useful command-line utilities and scripts.
-- Check each tool’s folder for instructions on how to use them and any dependencies they may have.
+Scripts that make your daily workflow faster. See [tools/README.md](tools/README.md) for full details.
 
-For example, if you’re interested in setting up SSL certificates, you can find a tool in the tools/ folder with detailed usage instructions.
+| Script | What it does |
+|--------|-------------|
+| `tools/setup.sh` | Configures git, checks dependencies, verifies AI tools |
+| `tools/ai-commit.sh` | Generates a conventional commit message from staged changes |
+| `tools/ai-review.sh` | AI reviews your diff for bugs, security issues, and improvements |
+| `tools/ai-pr-description.sh` | Generates a ready-to-paste GitHub PR description |
 
-### 3. Review the Guidelines
-  
-In the guidelines/ folder, you’ll find documents that outline essential coding practices, best practices, and our code of conduct. These guidelines are here to ensure a consistent and collaborative workflow for all contributors.
+```bash
+# Make scripts executable
+chmod +x tools/*.sh
 
-Some key documents to check:
+# Example: AI-assisted commit workflow
+git add -p
+./tools/ai-review.sh --staged     # review before committing
+./tools/ai-commit.sh              # generate and commit
+./tools/ai-pr-description.sh      # generate PR description
+```
 
-- Code of Conduct: A set of principles to maintain a respectful and productive environment.
-- Coding Standards: Follow these to ensure your code is maintainable and consistent with the project.
+---
 
-### 4. Read the Documentation
+## Guidelines
 
-For additional help, dive into the docs/ folder:
+| Document | Summary |
+|----------|---------|
+| [Code of Conduct](guidelines/code-of-conduct.md) | How we treat each other, including in code reviews |
+| [Coding Standards](guidelines/coding-standards.md) | Naming conventions, commit format, documentation rules |
+| [Git Workflow](guidelines/git-workflow.md) | Branch strategy, PR process, merging |
 
-- FAQs: Answers to common questions about the tools and setup process.
-- Onboarding Guide: A helpful guide if you’re new to DevPose and want to get started quickly.
+---
 
-### 5. Start Using the Tools
+## Documentation
 
-After you’ve familiarized yourself with the tools and guidelines, you’re ready to begin using `DevPose` in your projects! The tools are designed to make your development process more efficient, while the guidelines help ensure you’re following best practices.
+| Document | Summary |
+|----------|---------|
+| [Onboarding Guide](docs/onboarding.md) | Day 1 checklist, editor setup, first contribution |
+| [AI Workflow Guide](docs/ai-workflow.md) | Practical AI tips for commits, reviews, debugging, and more |
 
-Need more help? Feel free to check the issues page for troubleshooting or ask for assistance in the community.
+---
 
-### What's New:
+## AI Workflow
 
-- **Clear Step-by-Step Instructions**: Users know exactly what to do first and where to go.
-- **Focus on Practical Use**: The instructions guide users through understanding the tools, guidelines, and documentation.
-- **Encouragement for Contribution**: Includes a link to check out the issues page for support, which fosters community engagement.
+We actively use AI tools to move faster. Key workflows:
+
+```bash
+# Generate commit messages
+git diff --staged | claude -p "Write a conventional commit message"
+
+# AI code review before pushing
+./tools/ai-review.sh --staged
+
+# Generate PR descriptions
+./tools/ai-pr-description.sh
+
+# Explain unfamiliar code
+cat src/some-file.ts | claude -p "Explain what this does"
+```
+
+Full guide: [docs/ai-workflow.md](docs/ai-workflow.md)
 
 ---
 
 ## Contributing
 
-We welcome contributions from the community! Here’s how you can contribute:
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide.
 
-  1. Fork this repository.
-  2. Create a new branch for your feature or bug fix.
-  3. Make your changes, then commit them.
-  4. Push your branch and create a pull request.
-
-Before contributing, make sure to review our (Code of Conduct)[guidelines/code-of-conduct.md].
+Short version:
+1. Fork → branch off `main` → make changes → PR
+2. Follow [coding-standards.md](guidelines/coding-standards.md)
+3. Keep PRs small (< 400 lines)
+4. Respond to review comments within 1 business day
 
 ---
 
 ## License
 
-This repository is licensed under the MIT License. See the (LICENSE)[LICENSE] file for details.
+MIT License — see [LICENSE](LICENSE).
