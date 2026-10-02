@@ -590,13 +590,23 @@ for wf in workflows:
 
     node_steps = [(jn, s) for jn, s in all_steps(wf) if "actions/setup-node" in str(s.get("uses", ""))]
     has_cache_step = "actions/cache" in wf["text"]
+    INSTALL_RE = re.compile(r"\b(npm (ci|install|i)\b|pnpm (install|i)\b|yarn( install)?\s*($|--)|bun install)")
+    def job_installs(jn):
+        j = wf["jobs"].get(jn)
+        return isinstance(j, dict) and any(INSTALL_RE.search(str(st.get("run", "")))
+                                           for st in as_list(j.get("steps")) if isinstance(st, dict))
+    # Only flag jobs that actually install packages: a setup-node that just
+    # provides `node` has nothing to cache, and `cache:` would fail there.
     no_cache = [jn for jn, s in node_steps
-                if not (isinstance(s.get("with"), dict) and s["with"].get("cache"))]
+                if job_installs(jn)
+                and not (isinstance(s.get("with"), dict) and s["with"].get("cache"))]
     if no_cache and not has_cache_step:
         add(S_MIN, WARN, f"{wf_label(wf)}: `setup-node` without `cache` (job: {', '.join(sorted(set(no_cache)))})",
             "Dependencies download from scratch every run.", FIX_NODE_CACHE)
-    elif node_steps:
+    elif node_steps and any(job_installs(jn) for jn, _ in node_steps):
         add(S_MIN, OK, f"{wf_label(wf)}: setup-node caches dependencies")
+    elif node_steps:
+        add(S_MIN, OK, f"{wf_label(wf)}: setup-node with no install step — no cache needed")
 
     if re.search(r"playwright\s+install", wf["text"]):
         if re.search(r"ms-playwright", wf["text"]):
