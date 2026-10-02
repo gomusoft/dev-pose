@@ -31,9 +31,15 @@ Here’s the structure of this repository:
 
 ```plaintext
 DevPose/
+├── .claude/
+│   ├── commands/   # Slash commands for Claude Code sessions
+│   └── skills/
+│       └── ci-audit/        # Check, verify and fix a repo's GitHub Actions CI
 ├── tools/          # Collection of CLI and automation tools
+│   └── ci-audit/   # ci-audit.sh — read-only CI audit report (bash + gh + python3)
 ├── guidelines/     # Coding standards, best practices, and conduct
 ├── docs/           # Additional documentation and references
+│   └── ci-guidelines.md     # House rules for CI minutes, previews and pushes
 ├── LICENSE         # License for this repository
 └── README.md       # This README file
 ```
