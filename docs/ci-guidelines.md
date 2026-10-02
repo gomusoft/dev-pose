@@ -30,7 +30,7 @@ Private repos have a monthly minutes budget. Every run has to earn its cost.
 
 - Host PR previews on **Cloud Run** in the **non-prod** project: one tagged, no-traffic revision per PR (`pr-<n>`), `min-instances 0`.
 - **7-day TTL.** Label each preview with `expires=<date>`; a scheduled sweep removes expired ones, and the `pull_request: closed` handler removes the PR's preview immediately. Both — the sweep catches what the close event misses.
-- **≤ 2 images / 30 days** in Artifact Registry: a cleanup policy that keeps the 2 newest images and deletes anything older than 30 days, committed to the repo as JSON so it is reviewable.
+- **Hard cap of 2 images** in Artifact Registry (owner decision 2026-10-03): a cleanup policy that keeps the 2 newest versions and deletes every other one, committed to the repo as JSON so it is reviewable.
 - **Previews never touch production data or production credentials.** Fake/seed data only; the preview's deploy identity has no role in the production project.
 
 ### 1.4 Deploys

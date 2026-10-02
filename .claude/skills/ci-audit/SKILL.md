@@ -241,7 +241,7 @@ jobs:
       - run: scripts/preview-sweep.sh --project "$PROJECT" --region "$REGION" --service "$SERVICE"
 ```
 
-Artifact Registry cleanup policy for the preview repository — keep the 2 newest images, delete anything older than 30 days (`ar-cleanup-policy.json`):
+Artifact Registry cleanup policy for the preview repository — **hard cap of 2 images** — keep the 2 newest, delete every other version (`ar-cleanup-policy.json`):
 
 ```json
 [
@@ -251,9 +251,9 @@ Artifact Registry cleanup policy for the preview repository — keep the 2 newes
     "mostRecentVersions": { "keepCount": 2 }
   },
   {
-    "name": "delete-older-than-30d",
+    "name": "delete-the-rest",
     "action": { "type": "Delete" },
-    "condition": { "tagState": "ANY", "olderThan": "30d" }
+    "condition": { "tagState": "ANY" }
   }
 ]
 ```
@@ -266,7 +266,7 @@ gcloud artifacts repositories list-cleanup-policies acme-preview \
   --project=acme-nonprod --location=asia-southeast1
 ```
 
-`Keep` wins over `Delete`, so the 2 newest always survive. Images younger than 30 days are kept regardless — for a hard cap of 2, shorten `olderThan`. Put production images in a separate repository with its own (longer) policy so rollbacks stay possible, and commit the policy JSON to the repo so the audit can see it.
+`Keep` wins over `Delete`, so the 2 newest always survive and everything else is deleted (cleanup runs asynchronously, roughly daily, so a third image can exist briefly). Don't add `olderThan` — that would keep every image younger than the cut-off and break the cap. Put production images in a separate repository with its own (longer) policy so rollbacks stay possible, and commit the policy JSON to the repo so the audit can see it.
 
 ## 5. Verify the fix
 

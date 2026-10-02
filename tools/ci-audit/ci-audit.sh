@@ -622,7 +622,7 @@ jobs:
     # gcloud run services update-traffic SERVICE --remove-tags pr-${{ github.event.number }}
 ```"""
 FIX_AR = """```bash
-# keep the 2 newest images, delete anything older than 30 days (see SKILL.md for the JSON)
+# hard cap: keep the 2 newest images, delete the rest (see SKILL.md for the JSON)
 gcloud artifacts repositories set-cleanup-policies REPO \\
   --project=PROJECT --location=REGION --policy=ar-cleanup-policy.json --dry-run
 # read the dry-run result, get owner approval, then re-run with --no-dry-run
