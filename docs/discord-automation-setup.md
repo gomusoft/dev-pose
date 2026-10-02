@@ -60,15 +60,17 @@ This document is the step-by-step plan. It complements the [`discord-project-man
 Local (macOS Keychain):
 
 ```bash
-security add-generic-password -a "$USER" -s discord-bot-token -w
+security add-generic-password -a "$USER" -s devpose-manager-discord-bot-token -w
 # paste the token at the prompt
 ```
 
-Read it back in scripts with:
+The service name is just a label. Scripts read it from `DISCORD_KEYCHAIN_SERVICE` (default `devpose-manager-discord-bot-token`), so use a specific name if you ever add a second bot. Read it back with:
 
 ```bash
-security find-generic-password -a "$USER" -s discord-bot-token -w
+security find-generic-password -a "$USER" -s "${DISCORD_KEYCHAIN_SERVICE:-devpose-manager-discord-bot-token}" -w
 ```
+
+Verify the token without printing it: call `GET https://discord.com/api/v10/users/@me` with `Authorization: Bot <token>` and expect HTTP 200.
 
 GitHub (for the Remote path). Use a **private** repo for the workflow if possible:
 
@@ -129,6 +131,12 @@ gh secret set TARGET_REPO_PAT --repo <owner>/<repo>
 
 ---
 
+### Migrating an existing shared server
+
+Shared servers often already contain unprefixed channels such as `#playground` or `#ai-updates` in several project categories. That is the ambiguity the prefix rule removes. For these servers the script's first run is a **read-only audit** that lists, per category, which standard channels exist, which are missing, which are misspelled, and which are duplicated across projects. Renames are proposed as a diff and applied only after approval, and agent instructions are updated in the same change.
+
+---
+
 ## 4. Usage once built
 
 ```bash
@@ -153,6 +161,7 @@ gh workflow run discord-setup -f config=<path-or-inline> -f dry_run=true
 
 ## 6. Open questions
 
-1. Will this repo stay public? If yes, host the workflow in a private repo.
-2. Which local project is the pilot, and is it in the shared server or a dedicated one?
-3. PAT or GitHub App for writing webhook secrets to target repos?
+1. Which project code does each existing project get (unique in the server, stable)?
+2. Will this repo stay public? If yes, host the workflow in a private repo.
+3. Which local project is the pilot, and is it in the shared server or a dedicated one?
+4. PAT or GitHub App for writing webhook secrets to target repos?
