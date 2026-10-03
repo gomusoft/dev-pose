@@ -84,7 +84,9 @@ def plan_project(project, channels):
         if v not in STANDARD:
             raise ValueError(f"{project['name']}: map target '{v}' is not a standard channel")
 
-    cats = [c for c in channels if c["type"] == CATEGORY and c["name"] == project["category"]]
+    # Accept the old name or the already-renamed one so re-runs stay idempotent.
+    cat_names = {project["category"], project["name"]}
+    cats = [c for c in channels if c["type"] == CATEGORY and c["name"] in cat_names]
     if len(cats) > 1:
         raise ValueError(f"{project['name']}: category name '{project['category']}' is ambiguous")
     if not cats:

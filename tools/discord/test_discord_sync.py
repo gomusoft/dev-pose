@@ -37,5 +37,12 @@ class PlanTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             plan_project({"name": "X", "code": "x", "category": "Nope"}, chans)
 
+class RerunTests(unittest.TestCase):
+    def test_category_already_renamed(self):
+        chans = [ch("1", "Acme Shop", 4)]
+        p = {"name": "Acme Shop", "code": "as", "category": "Old Name"}
+        ops, _ = plan_project(p, chans)
+        self.assertFalse(any(o["op"] == "rename_category" for o in ops))
+
 if __name__ == "__main__":
     unittest.main()
