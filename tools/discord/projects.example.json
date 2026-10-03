@@ -1,0 +1,13 @@
+{
+  "guild_id": "<server id>",
+  "projects": [
+    {
+      "name": "Acme Shop",
+      "code": "as",
+      "mode": "shared",
+      "category": "Acme Shop - Collaborate",
+      "map": {"need-feedback": "ai-alerts"}
+    },
+    {"name": "Blue Comet", "code": "bc", "mode": "shared", "category": "Blue Comet", "create_category": true}
+  ]
+}
